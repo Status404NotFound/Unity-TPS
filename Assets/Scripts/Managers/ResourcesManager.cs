@@ -9,16 +9,16 @@ namespace FR
     {
         public RuntimeReferences runtime;
         public Weapon[] all_weapons;
-        Dictionary<string, int> w_dict = new Dictionary<string, int>();
+        private Dictionary<string, int> w_dict = new Dictionary<string, int>();
 
         public MeshContainer[] meshContainers;
-        Dictionary<string, int> m_dict = new Dictionary<string, int>();
+        private Dictionary<string, int> m_dict = new Dictionary<string, int>();
 
         public CharObject[] charObjects;
-        Dictionary<string, int> c_dict = new Dictionary<string, int>();
+        private Dictionary<string, int> c_dict = new Dictionary<string, int>();
 
         public Mask[] masks;
-        Dictionary<string, int> mask_dict = new Dictionary<string, int>();
+        private Dictionary<string, int> mask_dict = new Dictionary<string, int>();
 
         public void Init()
         {
@@ -27,7 +27,7 @@ namespace FR
             InitMasks();
         }
 
-        void InitWeapons()
+        private void InitWeapons()
         {
             w_dict.Clear();
             for (int i = 0; i < all_weapons.Length; i++)
@@ -53,10 +53,10 @@ namespace FR
             return retVal;
         }
 
-        void InitMeshContainers()
+        private void InitMeshContainers()
         {
             m_dict.Clear();
-            for(int i = 0; i< meshContainers.Length; i++)
+            for (int i = 0; i < meshContainers.Length; i++)
             {
                 if (m_dict.ContainsKey(meshContainers[i].id))
                 {
@@ -74,7 +74,7 @@ namespace FR
             MeshContainer retVal = null;
             int index = -1;
 
-            if(m_dict.TryGetValue(id,out index))
+            if (m_dict.TryGetValue(id, out index))
             {
                 retVal = meshContainers[index];
             }
@@ -82,7 +82,7 @@ namespace FR
             return retVal;
         }
 
-        void InitMasks()
+        private void InitMasks()
         {
             mask_dict.Clear();
             for (int i = 0; i < masks.Length; i++)
@@ -103,7 +103,7 @@ namespace FR
             Mask retVal = null;
             int index = -1;
 
-            if(mask_dict.TryGetValue(id,out index))
+            if (mask_dict.TryGetValue(id, out index))
             {
                 retVal = masks[index];
             }

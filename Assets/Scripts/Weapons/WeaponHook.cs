@@ -7,8 +7,7 @@ namespace FR
     public class WeaponHook : MonoBehaviour
     {
         public Transform leftHandIK;
-
-        ParticleSystem[] particles;
+        private ParticleSystem[] particles;
 
 
         private void OnEnable()

@@ -90,7 +90,7 @@ namespace FR
 
         private void SetupAnimator()
         {
-            if(activeModel == null)
+            if (activeModel == null)
             {
                 anim = GetComponentInChildren<Animator>();
                 activeModel = anim.gameObject;
@@ -169,7 +169,7 @@ namespace FR
 
         private void RotationNormal()
         {
-            if(!states.isAiming)
+            if (!states.isAiming)
                 inp.rotateDirection = inp.moveDirection;
 
             Vector3 targetDir = inp.rotateDirection;
@@ -206,6 +206,7 @@ namespace FR
                 case CharState.normal:
                     states.onGround = OnGround();
                     HandleAnimationAll();
+                    a_hook.Tick();
                     break;
                 case CharState.onAir:
                     states.onGround = OnGround();
@@ -283,8 +284,27 @@ namespace FR
             a_hook.EquipWeapon(rw);
 
             anim.SetFloat(StaticStrings.weaponType, rw.w_actual.weaponType);
+            w_manager.SetCurrent(rw);
         }
 
+        public bool ShootWeapon(float t)
+        {
+            bool retVal = false;
+
+            RuntimeWeapon c = w_manager.GetCurrent();
+
+            if (c.curAmmo > 0)
+            {
+                if (t - c.lastFired > c.w_actual.fireRate)
+                {
+                    c.lastFired = t;
+                    retVal = true;
+                    c.ShootWeapon();
+                    a_hook.RecoilAnim();
+                }
+            }
+            return retVal;
+        }
         #endregion
 
         private bool OnGround()
@@ -294,7 +314,7 @@ namespace FR
             Vector3 dir = -Vector3.up;
             float dis = 0.7f;
             RaycastHit hit;
-            if(Physics.Raycast(origin,dir,out hit, dis, ignoreForGround))
+            if (Physics.Raycast(origin, dir, out hit, dis, ignoreForGround))
             {
                 Vector3 tp = hit.point;
                 mTransform.position = tp;
@@ -306,6 +326,6 @@ namespace FR
 
     public enum CharState
     {
-        normal,onAir,cover,vaulting
+        normal, onAir, cover, vaulting
     }
 }

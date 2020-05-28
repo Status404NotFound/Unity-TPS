@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace FR
 {
-    [CreateAssetMenu (menuName = "Characters/Mask")]
+    [CreateAssetMenu(menuName = "Characters/Mask")]
     public class Mask : ScriptableObject
     {
         public bool enableHair;

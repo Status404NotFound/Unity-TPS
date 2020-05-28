@@ -6,26 +6,22 @@ namespace FR
 {
     public class AnimatorHook : MonoBehaviour
     {
-        Animator anim;
-        StatesManager states;
-
-        float m_h_weight;
-        float o_h_weight;
-        float l_weight;
-        float b_weight;
+        private Animator anim;
+        private StatesManager states;
+        private float m_h_weight;
+        private float o_h_weight;
+        private float l_weight;
+        private float b_weight;
 
         public Transform rh_target;
         public Transform lh_target;
-
-        Transform shoulder;
-        Transform aimPivot;
-        Vector3 lookDir;
+        private Transform shoulder;
+        private Transform aimPivot;
+        private Vector3 lookDir;
 
         public bool onIdleDisableOh;
         public bool disable_o_h;
         public bool disable_m_h;
-
-        RuntimeWeapon curWeapon;
 
         public void Init(StatesManager st)
         {
@@ -50,8 +46,9 @@ namespace FR
 
             rh_target.localPosition = w.m_h_IK.pos;
             rh_target.localEulerAngles = w.m_h_IK.rot;
+            basePosition = w.m_h_IK.pos;
+            baseRotation = w.m_h_IK.rot;
             onIdleDisableOh = rw.w_actual.onIdleDisableOh;
-            curWeapon = rw;
         }
 
         private void OnAnimatorMove()
@@ -60,18 +57,18 @@ namespace FR
             HandleShoulder();
         }
 
-        void HandleShoulder()
+        private void HandleShoulder()
         {
             HandleShoulderPosition();
             HandleShoulderRotation();
         }
 
-        void HandleShoulderPosition()
+        private void HandleShoulderPosition()
         {
             aimPivot.position = shoulder.position;
         }
 
-        void HandleShoulderRotation()
+        private void HandleShoulderRotation()
         {
             Vector3 targetDir = lookDir;
             if (targetDir == Vector3.zero)
@@ -80,7 +77,7 @@ namespace FR
             aimPivot.rotation = Quaternion.Slerp(aimPivot.rotation, tr, states.delta * 15);
         }
 
-        void HandleWeights()
+        private void HandleWeights()
         {
             if (states.states.isInteracting)
             {
@@ -129,7 +126,7 @@ namespace FR
             if (angle > 60)
                 t_m_weight = 0;
 
-            if (!states.states.isAiming) 
+            if (!states.states.isAiming)
             {
                 if (onIdleDisableOh)
                     o_h_weight = 0;
@@ -167,12 +164,12 @@ namespace FR
         }
 
         #region Recoil
-        float recoilT;
-        Vector3 offsetPosition;
-        Vector3 offsetRotation;
-        Vector3 basePosition;
-        Vector3 baseRotation;
-        bool recoilIsInit;
+        private float recoilT;
+        private Vector3 offsetPosition;
+        private Vector3 offsetRotation;
+        private Vector3 basePosition;
+        private Vector3 baseRotation;
+        private bool recoilIsInit;
 
         public void RecoilAnim()
         {
@@ -194,8 +191,8 @@ namespace FR
                     recoilT = 1;
                     recoilIsInit = false;
                 }
-                offsetPosition = Vector3.forward * curWeapon.w_actual.recoilZ.Evaluate(recoilT);
-                offsetRotation = Vector3.right * 90 * curWeapon.w_actual.recoilY.Evaluate(recoilT);
+                offsetPosition = Vector3.forward * states.w_manager.GetCurrent().w_actual.recoilZ.Evaluate(recoilT);
+                offsetRotation = Vector3.right * 90 * -states.w_manager.GetCurrent().w_actual.recoilY.Evaluate(recoilT);
 
                 rh_target.localPosition = basePosition + offsetPosition;
                 rh_target.localEulerAngles = baseRotation + offsetRotation;

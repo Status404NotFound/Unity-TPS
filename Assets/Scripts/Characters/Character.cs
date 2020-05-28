@@ -12,19 +12,16 @@ namespace FR
         public CharObject hairObj;
         public CharObject eyebrowsObj;
         public Mask maskObj;
-
-        GameObject hair;
-        GameObject eyebrows;
-        GameObject mask;
+        private GameObject hair;
+        private GameObject eyebrows;
+        private GameObject mask;
 
         public bool isFemale;
         public SkinnedMeshRenderer bodyRenderer;
 
         public Transform eyebrowsBone;
-
-        List<GameObject> instancedObjs = new List<GameObject>();
-
-        ResourcesManager r_manager;
+        private List<GameObject> instancedObjs = new List<GameObject>();
+        private ResourcesManager r_manager;
 
         public void Init(StatesManager st)
         {

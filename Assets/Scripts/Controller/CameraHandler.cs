@@ -13,20 +13,18 @@ namespace SA
         public Transform pivot;
         public Transform mTransform;
         public bool leftPivot;
-        float delta;
-
-        float mouseX;
-        float mouseY;
-        float smoothX;
-        float smoothY;
-        float smoothXvelocity;
-        float smoothYvelocity;
-        float lookAngle;
-        float tiltAngle;
+        private float delta;
+        private float mouseX;
+        private float mouseY;
+        private float smoothX;
+        private float smoothY;
+        private float smoothXvelocity;
+        private float smoothYvelocity;
+        private float lookAngle;
+        private float tiltAngle;
 
         public CameraValues values;
-
-        StatesManager states;
+        private StatesManager states;
 
         public void Init(InputHandler inp)
         {
@@ -53,7 +51,7 @@ namespace SA
             mTransform.position = targetPosition;
         }
 
-        void HandlePositions()
+        private void HandlePositions()
         {
             float targetX = values.normalX;
             float targetZ = values.normalZ;
@@ -83,7 +81,7 @@ namespace SA
             camTrans.localPosition = Vector3.Lerp(camTrans.localPosition, newCamPosition, t);
         }
 
-        void HandleRotation()
+        private void HandleRotation()
         {
             mouseX = Input.GetAxis(StaticStrings.MouseX);
             mouseY = Input.GetAxis(StaticStrings.MouseY);
