@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 739b50057a8ebe44bbf7114ca1fc2710, type: 3}
+  m_Name: Hockey
+  m_EditorClassIdentifier: 
+  enableHair: 1
+  enableEyebrows: 0
+  obj: {fileID: 11400000, guid: 193858ffceb554e4ba0a029b98e26530, type: 2}
