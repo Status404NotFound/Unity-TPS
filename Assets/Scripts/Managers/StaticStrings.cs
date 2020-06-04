@@ -11,6 +11,8 @@ namespace FR
         public static string Vertical = "Vertical";
         public static string MouseX = "Mouse X";
         public static string MouseY = "Mouse Y";
+        public static string Pivot = "Pivot";
+        public static string Reload = "Reload";
 
         //Animator parameters
         public static string horizontal = "horizontal";

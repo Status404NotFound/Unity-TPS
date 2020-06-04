@@ -12,8 +12,12 @@ namespace SA
         public Transform target;
         public Transform pivot;
         public Transform mTransform;
-        public bool leftPivot;
+
+        public BoolVariable isLeftPivot;
+        public BoolVariable isAiming;
+        public BoolVariable isCrouching;
         private float delta;
+
         private float mouseX;
         private float mouseY;
         private float smoothX;
@@ -24,13 +28,16 @@ namespace SA
         private float tiltAngle;
 
         public CameraValues values;
-        private StatesManager states;
 
         public void Init(InputHandler inp)
         {
             mTransform = this.transform;
-            states = inp.states;
-            target = states.mTransform;
+            target = inp.states.mTransform;
+        }
+
+        private void FixedUpdate()
+        {
+            FixedTick(Time.deltaTime);
         }
 
         public void FixedTick(float d)
@@ -44,7 +51,7 @@ namespace SA
             HandleRotation();
 
             float speed = values.moveSpeed;
-            if (states.states.isAiming)
+            if (isAiming.value)
                 speed = values.aimSpeed;
 
             Vector3 targetPosition = Vector3.Lerp(mTransform.position, target.position, delta * speed);
@@ -57,16 +64,16 @@ namespace SA
             float targetZ = values.normalZ;
             float targetY = values.normalY;
 
-            if (states.states.isCrouching)
+            if (isCrouching.value)
                 targetY = values.crouchY;
 
-            if (states.states.isAiming)
+            if (isAiming.value)
             {
                 targetX = values.aimX;
                 targetZ = values.aimZ;
             }
 
-            if (leftPivot)
+            if (isLeftPivot.value)
                 targetX = -targetX;
 
             Vector3 newPivotPosition = pivot.localPosition;

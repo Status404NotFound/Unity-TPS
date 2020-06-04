@@ -34,6 +34,7 @@ namespace FR
 
         public void InitInGame()
         {
+            p_references.Init();
             states.Init();
             camHandler.Init(this);
 
@@ -54,12 +55,10 @@ namespace FR
             InGame_UpdateStates_FixedUpdate();
             states.FixedTick(delta);
 
-            camHandler.FixedTick(delta);
+            //camHandler.FixedTick(delta);
 
-            if (states.rigid.velocity.sqrMagnitude > 0)
-                p_references.targetSpread.value = 120;
-            else
-                p_references.targetSpread.value = 30;
+            if (states.rigid.velocity.sqrMagnitude > 0.5f)
+                p_references.targetSpread.value = 250;
         }
 
         private void GetInput_FixedUpdate()
@@ -113,21 +112,39 @@ namespace FR
         {
             aimInput = Input.GetMouseButton(1);
             shootInput = Input.GetMouseButton(0);
+            pivotInput = Input.GetButtonDown(StaticStrings.Pivot);
+            reloadInput = Input.GetButtonDown(StaticStrings.Reload);
         }
 
         private void InGame_UpdateStates_Update()
         {
-            states.states.isAiming = aimInput;
+            if (reloadInput)
+            {
+                bool isReloading = states.Reload();
+                if (isReloading)
+                {
+                    aimInput = false;
+                    shootInput = false;
+                    updateUI = true;
+                }
+            }
 
+            states.states.isAiming = aimInput;
             if (shootInput)
             {
                 states.states.isAiming = true;
                 bool shootActual = states.ShootWeapon(Time.realtimeSinceStartup);
                 if (shootActual)
                 {
+                    p_references.targetSpread.value += 80;
                     updateUI = true;
                 }
             }
+
+            p_references.isAiming.value = states.states.isAiming;
+
+            if (pivotInput)
+                p_references.isLeftPivot.value = !p_references.isLeftPivot.value;
         }
 
         private void AimPosition()
